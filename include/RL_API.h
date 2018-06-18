@@ -12,14 +12,14 @@ class RL_API
         bool getPlayerJumpState();
 
     private:
-        DWORD getPlayerJumpStateAddress;
-        HWND game;
-        DWORD processId;
-        DWORD gameModuleAddr;
-        bool hookedToGame;
-        HANDLE gameProcessHandle;
+        DWORD     m_getPlayerJumpStateAddress;
+        HWND      m_game;
+        DWORD     m_processId;
+        DWORD     m_gameModuleAddr;
+        bool      m_hookedToGame;
+        HANDLE    m_gameProcessHandle;
         DWORD_PTR dwGetModuleBaseAddress(DWORD dwProcID, TCHAR *szModuleName);
-        DWORD initGetPlayerJumpState();
+        DWORD     initGetPlayerJumpState();
 };
 
 #endif // RL_API_H

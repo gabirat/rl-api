@@ -7,18 +7,18 @@
 
 bool RL_API::getPlayerJumpState() {
     bool jumpState;
-    ReadProcessMemory(gameProcessHandle, (PBYTE*)getPlayerJumpStateAddress, &jumpState, sizeof(DWORD), 0);
+    ReadProcessMemory(m_gameProcessHandle, (PBYTE*)m_getPlayerJumpStateAddress, &jumpState, sizeof(DWORD), 0);
     return jumpState;
 }
 
 DWORD RL_API::initGetPlayerJumpState() { //returns dynamic address of the variable
     int numOfOffsets = 4;
-    DWORD offsets[] = {0x1A3A158, 0, 0xCC, 0x48};//{0x1953F64, 0x80, 0x4, 0x138};//{0x194894C, 0x218, 0x64};
-    DWORD tempAddr = gameModuleAddr;
+    DWORD offsets[] = {0x1A3A158, 0, 0xCC, 0x48};
+    DWORD tempAddr = m_gameModuleAddr;
     DWORD returnTemp = NULL;
     for(unsigned int i = 0; i < numOfOffsets - 1 ; i++) {
         //std::cout << std::hex << tempAddr << " + " << std::hex << offsets[i] << std::endl;
-        ReadProcessMemory(gameProcessHandle, (PBYTE*)(tempAddr + offsets[i]), &returnTemp, sizeof(DWORD), 0);
+        ReadProcessMemory(m_gameProcessHandle, (PBYTE*)(tempAddr + offsets[i]), &returnTemp, sizeof(DWORD), 0);
         //std::cout << std::hex << returnTemp << std::endl;
         tempAddr = returnTemp;
     }
@@ -26,17 +26,17 @@ DWORD RL_API::initGetPlayerJumpState() { //returns dynamic address of the variab
 }
 
 RL_API::RL_API() {
-    game = FindWindowA(NULL, "Rocket League (32-bit, DX9, Cooked)");
-    if(game == NULL) {
-        hookedToGame = false;
+    m_game = FindWindowA(NULL, "Rocket League (32-bit, DX9, Cooked)");
+    if(m_game == NULL) {
+        m_hookedToGame = false;
     }
     else {
-        GetWindowThreadProcessId(game, &processId);
-        gameModuleAddr = dwGetModuleBaseAddress(processId, _T("RocketLeague.exe"));
-        gameProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
-        hookedToGame = true;
+        GetWindowThreadProcessId(m_game, &m_processId);
+        m_gameModuleAddr = dwGetModuleBaseAddress(m_processId, _T("RocketLeague.exe"));
+        m_gameProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, false, m_processId);
+        m_hookedToGame = true;
         /* GETS ADRESSES FOR EVERY METHOD */
-        getPlayerJumpStateAddress = initGetPlayerJumpState();
+        m_getPlayerJumpStateAddress = initGetPlayerJumpState();
     }
 }
 
