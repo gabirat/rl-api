@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1529349851 source:c:\users\gabirat\desktop\c++\rl-api\main.cpp
+	<iostream>
+	"RL_API.h"
+
+1529350509 source:c:\users\gabirat\desktop\c++\rl-api\src\rl_api.cpp
+	"RL_API.h"
+	<windows.h>
+	<tlhelp32.h>
+	<tchar.h>
+	<iostream>
+
+1529347101 c:\users\gabirat\desktop\c++\rl-api\include\rl_api.h
+	<windows.h>
+	<tlhelp32.h>
+	<tchar.h>
+
